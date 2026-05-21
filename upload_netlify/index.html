@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教學素材庫</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+    background: #fafafa;
+    color: #1d1d1f;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    padding: 32px 24px 16px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  header .meta {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #86868b;
+  }
+  header .hint {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #86868b;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .tile {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .tile:hover { transform: scale(1.02); }
+  .tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .tile .name {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 10px 44px 10px 12px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: #fff;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+  }
+  .tile:hover .name { opacity: 1; }
+  .tile .zoom {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.15s ease, background 0.15s ease;
+  }
+  .tile .zoom:hover { background: rgba(0,0,0,0.8); }
+  .tile .zoom .material-symbols-outlined { font-size: 18px; }
+  .tile:hover .zoom { opacity: 1; }
+  .tile.copied { animation: flash 0.5s ease; }
+  @keyframes flash {
+    0%, 100% { box-shadow: none; }
+    30% { box-shadow: 0 0 0 3px #34c759; }
+  }
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 24px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 200;
+    max-width: calc(100% - 32px);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast .material-symbols-outlined { font-size: 18px; color: #34c759; }
+  .empty {
+    padding: 80px 24px;
+    text-align: center;
+    color: #86868b;
+  }
+  .empty .material-symbols-outlined {
+    font-size: 48px;
+    color: #c7c7cc;
+    margin-bottom: 12px;
+  }
+  .empty code {
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  /* Lightbox */
+  .lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+  .lightbox .close,
+  .lightbox .nav {
+    position: absolute;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+  }
+  .lightbox .close:hover,
+  .lightbox .nav:hover { background: rgba(255,255,255,0.2); }
+  .lightbox .close { top: 20px; right: 20px; }
+  .lightbox .prev { left: 20px; top: 50%; transform: translateY(-50%); }
+  .lightbox .next { right: 20px; top: 50%; transform: translateY(-50%); }
+  .lightbox .info {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 13px;
+    background: rgba(0,0,0,0.6);
+    padding: 8px 16px;
+    border-radius: 20px;
+  }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 12px; }
+    .tile { border-radius: 8px; }
+    .tile .name { opacity: 1; font-size: 11px; padding: 8px 40px 8px 8px; }
+    .tile .zoom { opacity: 1; width: 28px; height: 28px; right: 6px; bottom: 6px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>教學素材庫</h1>
+  <div class="meta" id="meta">載入中⋯</div>
+  <div class="hint">點圖片複製網址，右下角放大鏡可看大圖</div>
+</header>
+
+<div id="grid" class="grid"></div>
+
+<div id="toast" class="toast">
+  <span class="material-symbols-outlined">check_circle</span>
+  <span id="toast-msg">已複製網址</span>
+</div>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+  <button class="close" onclick="closeLightbox(event)" aria-label="關閉">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+  <button class="nav prev" onclick="navLightbox(event, -1)" aria-label="上一張">
+    <span class="material-symbols-outlined">chevron_left</span>
+  </button>
+  <img id="lightbox-img" src="" alt="">
+  <button class="nav next" onclick="navLightbox(event, 1)" aria-label="下一張">
+    <span class="material-symbols-outlined">chevron_right</span>
+  </button>
+  <div class="info" id="lightbox-info"></div>
+</div>
+
+<script>
+  var images = [];
+  var currentIndex = 0;
+
+  fetch('images.json?t=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      images = data.images || [];
+      render();
+    })
+    .catch(function() {
+      showEmpty('讀不到 images.json，請先跑 <code>./build.sh</code>');
+    });
+
+  function render() {
+    var grid = document.getElementById('grid');
+    var meta = document.getElementById('meta');
+    if (images.length === 0) {
+      showEmpty('images/ 資料夾還是空的，把圖片放進去後跑 <code>./build.sh</code>');
+      return;
+    }
+    meta.textContent = '共 ' + images.length + ' 張';
+    grid.innerHTML = images.map(function(img, i) {
+      return '<div class="tile" onclick="copyImageUrl(' + i + ', this)" title="點一下複製網址">' +
+             '<img src="images/' + encodeURIComponent(img.file) + '" alt="' + img.name + '" loading="lazy">' +
+             '<div class="name">' + img.name + '</div>' +
+             '<button class="zoom" onclick="event.stopPropagation(); openLightbox(' + i + ')" title="放大檢視" aria-label="放大檢視">' +
+             '<span class="material-symbols-outlined">open_in_full</span>' +
+             '</button>' +
+             '</div>';
+    }).join('');
+  }
+
+  function imageUrl(i) {
+    return new URL('images/' + encodeURIComponent(images[i].file), location.href).href;
+  }
+
+  function copyImageUrl(i, tile) {
+    var url = imageUrl(i);
+    copyText(url, function(ok) {
+      if (ok) {
+        tile.classList.add('copied');
+        setTimeout(function() { tile.classList.remove('copied'); }, 500);
+        showToast('已複製：' + images[i].file);
+      } else {
+        showToast('複製失敗，請手動選取');
+      }
+    });
+  }
+
+  function copyText(text, cb) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(
+        function() { cb(true); },
+        function() { fallbackCopy(text, cb); }
+      );
+    } else {
+      fallbackCopy(text, cb);
+    }
+  }
+
+  function fallbackCopy(text, cb) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    cb(ok);
+  }
+
+  var toastTimer = null;
+  function showToast(msg) {
+    var toast = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    toast.classList.add('show');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() {
+      toast.classList.remove('show');
+    }, 1800);
+  }
+
+  function showEmpty(msg) {
+    document.getElementById('meta').textContent = '';
+    document.getElementById('grid').innerHTML =
+      '<div class="empty" style="grid-column: 1 / -1;">' +
+      '<span class="material-symbols-outlined">image</span>' +
+      '<div>' + msg + '</div></div>';
+  }
+
+  function openLightbox(i) {
+    currentIndex = i;
+    updateLightbox();
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function closeLightbox(e) {
+    if (e && e.target.closest('.nav')) return;
+    if (e && e.target.tagName === 'IMG' && e.target.id === 'lightbox-img') return;
+    document.getElementById('lightbox').classList.remove('open');
+  }
+
+  function navLightbox(e, dir) {
+    e.stopPropagation();
+    currentIndex = (currentIndex + dir + images.length) % images.length;
+    updateLightbox();
+  }
+
+  function updateLightbox() {
+    var img = images[currentIndex];
+    document.getElementById('lightbox-img').src = 'images/' + encodeURIComponent(img.file);
+    document.getElementById('lightbox-info').textContent =
+      (currentIndex + 1) + ' / ' + images.length + ' · ' + img.name;
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navLightbox(e, -1);
+    if (e.key === 'ArrowRight') navLightbox(e, 1);
+  });
+</script>
+</body>
+</html>
