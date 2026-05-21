@@ -1,49 +1,64 @@
-# 教學素材庫（_img-gallery）
+# cameo-gallery
 
-純靜態圖庫網頁，零依賴、零建構。
+純靜態圖庫網頁，零依賴、零建構。Git push 後 Cloudflare Pages 自動部署。
+
+- **正式網址**：https://cameo-gallery.pages.dev（Cloudflare Pages 接好後生效）
+- **點圖片** → 複製圖片網址（含 toast 提示）
+- **點放大鏡** → 看大圖（lightbox，鍵盤左右切換、ESC 關閉）
 
 ## 使用流程
 
 ### 1. 放圖
-把圖片丟進 `upload_netlify/images/` 資料夾。支援 `.jpg .jpeg .png .gif .webp .svg .avif .heic`。
+把圖片丟進 `images/` 資料夾。支援 `.jpg .jpeg .png .gif .webp .svg .avif .heic`。
 
-> 檔名會直接顯示成標題，建議用有意義的名字，例如：
+> 檔名會直接顯示成標題，建議用有意義的名字：
 > `01-課程簡介.jpg` → 顯示「01-課程簡介」
 
 ### 2. 掃描
 ```bash
 ./build.sh
 ```
-會自動產生 `images.json`（圖片清單）。
+會自動產生 `images.json`（圖片清單），順便清掉 `.DS_Store`。
 
 ### 3. 預覽（可選）
 ```bash
-cd upload_netlify
 python3 -m http.server 8000
 # 開啟 http://localhost:8000
 ```
 
-### 4. 發佈到 Netlify
-1. 開啟 [app.netlify.com](https://app.netlify.com)
-2. 把 `upload_netlify/` 資料夾**拖到** Netlify 的「Sites」頁面（注意：不是外層的 _img-gallery）
-3. 自動取得網址（例如：`https://xxx.netlify.app`）
-4. 想換網址：Site settings → Change site name
+### 4. 發佈
+```bash
+git add -A
+git commit -m "新增 XX 圖片"
+git push
+```
+Cloudflare Pages 偵測到 push 後自動部署，30 秒內上線。
 
 ## 檔案結構
+
 ```
-_img-gallery/
-├── build.sh                 # 掃描工具（在外層，不會被上傳）
-├── README.md
-└── upload_netlify/          ← 拖這個資料夾到 Netlify
-    ├── index.html           # 主頁面（相片牆 + lightbox + 點圖複製網址）
-    ├── images.json          # 圖片清單（自動產生，勿手改）
-    └── images/              # 把圖片放這裡
+cameo-gallery/
+├── index.html       # 主頁面（相片牆 + lightbox + 點圖複製網址）
+├── images.json      # 圖片清單（自動產生，勿手改）
+├── images/          # 圖片放這裡
+├── build.sh         # 掃描工具
+├── 原始/            # 原圖備份（.gitignore 排除，不入 repo）
+└── README.md
 ```
 
-> `build.sh` 和 `README.md` 故意留在外層，讓 `upload_netlify/` 保持乾淨，拖到 Netlify 上傳時不會夾帶開發用檔案。
+## Cloudflare Pages 設定
+
+| 欄位 | 值 |
+|------|---|
+| Production branch | `main` |
+| Framework preset | None |
+| Build command | （留空） |
+| Build output directory | （留空，根目錄就是部署目錄） |
 
 ## 特色
+
 - 響應式：手機 2 欄、桌機自動排版
-- Lightbox：點圖放大，左右鍵切換，ESC 關閉
-- 鍵盤操作友善
-- 零依賴、純 HTML/CSS/JS
+- 點圖複製網址 + toast 提示 + 圖框閃綠光
+- Lightbox：點放大鏡進入，左右鍵切換、ESC 關閉
+- 中文檔名自動 URL encode
+- 零依賴、純 HTML/CSS/Vanilla JS

@@ -1,17 +1,15 @@
 #!/bin/bash
-# 掃描 upload_netlify/images/ 資料夾，產生 upload_netlify/images.json
+# 掃描 images/ 資料夾，產生 images.json
 # 用法：./build.sh
 
 cd "$(dirname "$0")"
 
-TARGET="upload_netlify"
-
-if [ ! -d "$TARGET/images" ]; then
-  echo "找不到 $TARGET/images/ 資料夾"
+if [ ! -d "images" ]; then
+  echo "找不到 images/ 資料夾"
   exit 1
 fi
 
-JSON="$TARGET/images.json"
+JSON="images.json"
 
 echo "{"  > "$JSON"
 echo '  "generated": "'"$(date +%Y-%m-%dT%H:%M:%S)"'",' >> "$JSON"
@@ -20,7 +18,7 @@ echo '  "images": [' >> "$JSON"
 count=0
 first=1
 # 支援常見圖片格式，依檔名自然排序（1, 2, ..., 10, 11）
-for f in $(ls "$TARGET/images/" 2>/dev/null | grep -iE '\.(jpg|jpeg|png|gif|webp|svg|avif|heic)$' | sort -V); do
+for f in $(ls "images/" 2>/dev/null | grep -iE '\.(jpg|jpeg|png|gif|webp|svg|avif|heic)$' | sort -V); do
   name="${f%.*}"
   if [ $first -eq 1 ]; then
     first=0
@@ -35,8 +33,8 @@ echo "" >> "$JSON"
 echo "  ]" >> "$JSON"
 echo "}" >> "$JSON"
 
-# 清掉 macOS 的 .DS_Store，避免一起上傳
-find "$TARGET" -name ".DS_Store" -delete 2>/dev/null
+# 清掉 macOS 的 .DS_Store，避免被 git 追蹤
+find . -name ".DS_Store" -not -path "./.git/*" -delete 2>/dev/null
 
 echo "已掃描 $count 張圖片，產生 $JSON"
-echo "下一步：把整個 $TARGET 資料夾拖到 Netlify"
+echo "下一步：git add -A && git commit -m \"...\" && git push"
