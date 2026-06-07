@@ -36,13 +36,20 @@ Cloudflare Pages 偵測到 push 後自動部署，30 秒內上線。
 
 ## 夥伴專區（/onboarding，密碼保護）
 
-`/onboarding/` 是給卡米爾內部夥伴看的「課前作業檢核表」，公開圖庫不受影響。
+`/onboarding/` 是給卡米爾內部夥伴的入口頁，公開圖庫不受影響。登入一次，cookie 涵蓋整個 `/onboarding/*`。
 
 - **網址**：https://cameo-gallery.pages.dev/onboarding/
-- **保護方式**：Cloudflare Pages Functions 伺服器端密碼門（`functions/onboarding/_middleware.js`）。沒輸對通行碼，內容根本不會送到瀏覽器；驗證成功後種 HMAC 簽章 cookie，30 天免重輸。
+- **入口頁**：`onboarding/index.html` 是資源清單（清單／卡片可切換，選擇存 localStorage）。
+- **隱藏入口**：首頁標題「教學素材庫」**1.5 秒內連點三下** → 跳到 `/onboarding/`（再經密碼門）。首頁外觀完全不變。
+- **保護方式**：Cloudflare Pages Functions 伺服器端密碼門（`functions/onboarding/_middleware.js`）。沒輸對通行碼，內容根本不會送到瀏覽器；驗證成功後種 HMAC 簽章 cookie，30 天免重輸。深連結也支援（直接開子頁 → 登入後回到該子頁）。
 - **設密碼**：到 Cloudflare 後台 → 該 Pages 專案 → **Settings → Variables and Secrets** → 新增環境變數 `ONBOARDING_PASSCODE`，值設成你要的通行碼，類型選 **Secret**，存到 **Production**。改完要重新部署一次才生效。
 - **換密碼**：改 `ONBOARDING_PASSCODE` 的值即可，所有舊 cookie 自動失效（夥伴需重輸新碼）。
 - ⚠️ 通行碼**不要**寫進 repo，只放環境變數。
+
+### 加一頁新的夥伴資源
+1. 建資料夾 `onboarding/<名稱>/index.html`（例：`onboarding/contract/`）
+2. 在 `onboarding/index.html` 的 `ENTRIES` 陣列加一筆 `{ icon, title, desc, href:'<名稱>/' }`
+3. 完成。密碼門自動罩住新頁，不用改任何設定。
 
 ## 檔案結構
 
@@ -52,7 +59,8 @@ cameo-gallery/
 ├── images.json                      # 圖片清單（自動產生，勿手改）
 ├── images/                          # 圖片放這裡
 ├── onboarding/
-│   └── index.html                   # 夥伴課前作業檢核表（密碼保護）
+│   ├── index.html                   # 夥伴專區入口頁（清單/卡片切換）
+│   └── checklist/index.html         # 課前作業檢核表
 ├── functions/
 │   └── onboarding/_middleware.js    # /onboarding/* 的伺服器端密碼門
 ├── build.sh                         # 掃描工具

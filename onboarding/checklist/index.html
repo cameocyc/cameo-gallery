@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 協作啟動課程｜課前作業檢核表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f7f3ec;
+    --paper-deep:#efe8dc;
+    --ink:#1f1b16;
+    --ink-soft:#5c544a;
+    --vermillion:#c8401f;
+    --vermillion-deep:#a33218;
+    --seal:#e8d9c3;
+    --ok:#2e7d4f;
+    --line:#d8cdbb;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Noto Sans TC',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.75;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(200,64,31,.04), transparent 40%),
+      repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(31,27,22,.035) 31px, rgba(31,27,22,.035) 32px);
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px 96px}
+
+  /* ===== Header ===== */
+  header{padding:64px 0 40px;border-bottom:3px solid var(--ink);position:relative}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.35em;color:var(--vermillion);text-transform:uppercase;margin-bottom:14px}
+  h1{font-family:'Noto Serif TC',serif;font-weight:900;font-size:clamp(30px,5.4vw,48px);line-height:1.25;letter-spacing:.02em}
+  h1 .accent{color:var(--vermillion)}
+  .lede{margin-top:18px;max-width:560px;color:var(--ink-soft);font-size:15.5px}
+  .lede strong{color:var(--ink)}
+  .stamp{
+    position:absolute;right:0;top:58px;width:96px;height:96px;border:3px double var(--vermillion);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:'Noto Serif TC',serif;font-weight:900;color:var(--vermillion);font-size:17px;
+    transform:rotate(8deg);letter-spacing:.12em;text-align:center;line-height:1.4;opacity:.85
+  }
+  @media(max-width:640px){.stamp{display:none}}
+
+  /* ===== Progress ===== */
+  .progress{position:sticky;top:0;z-index:50;background:var(--paper);padding:14px 0 12px;border-bottom:1px solid var(--line)}
+  .progress-row{display:flex;align-items:baseline;justify-content:space-between;font-family:var(--mono);font-size:12.5px;margin-bottom:8px}
+  .progress-row b{color:var(--vermillion);font-size:15px}
+  .bar{height:8px;background:var(--paper-deep);border:1px solid var(--line);position:relative;overflow:hidden}
+  .bar-fill{position:absolute;inset:0;width:0%;background:repeating-linear-gradient(-45deg,var(--vermillion),var(--vermillion) 6px,var(--vermillion-deep) 6px,var(--vermillion-deep) 12px);transition:width .5s cubic-bezier(.22,1,.36,1)}
+  .done-banner{display:none;margin-top:10px;padding:10px 14px;background:var(--ok);color:#fff;font-size:14px;font-weight:700;letter-spacing:.05em}
+  .done-banner.show{display:block;animation:pop .4s ease}
+  @keyframes pop{0%{transform:scale(.96);opacity:0}100%{transform:scale(1);opacity:1}}
+
+  /* ===== Fees Q&A ===== */
+  .fees{
+    margin-top:36px;background:#fffdf8;border:2px solid var(--ink);
+    box-shadow:5px 5px 0 rgba(31,27,22,.12);padding:24px 26px 22px;position:relative;
+    opacity:0;transform:translateY(14px);animation:rise .55s ease forwards;
+  }
+  .fees::before{
+    content:'開始前先看';position:absolute;top:-14px;left:22px;background:var(--ink);color:var(--paper);
+    font-size:12px;font-weight:900;letter-spacing:.35em;padding:4px 16px 4px 20px
+  }
+  .fees h2{font-family:'Noto Serif TC',serif;font-size:20px;font-weight:900;margin-bottom:14px}
+  .qa{display:grid;gap:14px}
+  .qa .q{font-weight:900;font-size:15px;color:var(--vermillion-deep)}
+  .qa .q::before{content:'Q ';font-family:var(--mono)}
+  .qa .a{font-size:14.5px;padding-left:2px}
+  .qa .a b{font-weight:900}
+
+  /* ===== Task cards ===== */
+  .task{
+    margin-top:36px;background:#fffdf8;border:1px solid var(--line);
+    box-shadow:5px 5px 0 rgba(31,27,22,.07);
+    opacity:0;transform:translateY(14px);animation:rise .55s ease forwards;
+  }
+  section.task:nth-of-type(1){animation-delay:.05s}section.task:nth-of-type(2){animation-delay:.11s}
+  section.task:nth-of-type(3){animation-delay:.17s}section.task:nth-of-type(4){animation-delay:.23s}
+  section.task:nth-of-type(5){animation-delay:.29s}section.task:nth-of-type(6){animation-delay:.35s}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .task-head{
+    display:flex;align-items:center;gap:16px;padding:18px 22px;
+    border-bottom:1px dashed var(--line);cursor:pointer;user-select:none
+  }
+  .num{
+    flex:none;width:46px;height:46px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;
+    font-family:'Noto Serif TC',serif;font-weight:900;font-size:21px;background:var(--paper)
+  }
+  .task.checked .num{background:var(--vermillion);border-color:var(--vermillion);color:#fff}
+  .task-title{flex:1}
+  .task-title h2{font-size:18.5px;font-weight:900;letter-spacing:.02em}
+  .task-title .meta{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+  .checkbox{
+    flex:none;width:30px;height:30px;border:2px solid var(--ink);background:#fff;position:relative;transition:.2s
+  }
+  .task.checked .checkbox{background:var(--ok);border-color:var(--ok)}
+  .task.checked .checkbox::after{
+    content:'';position:absolute;left:9px;top:3px;width:8px;height:15px;
+    border:solid #fff;border-width:0 3px 3px 0;transform:rotate(43deg)
+  }
+  .task.checked .task-title h2{text-decoration:line-through;text-decoration-color:var(--vermillion);text-decoration-thickness:2px;opacity:.65}
+  .task-body{padding:20px 24px 24px;font-size:15px}
+  .task-body ol{padding-left:22px;display:grid;gap:6px}
+  .task-body ul{padding-left:22px;display:grid;gap:4px}
+  .task-body li::marker{font-weight:700;color:var(--vermillion)}
+  .task-body a{color:var(--vermillion);font-weight:700;text-decoration-thickness:1.5px;text-underline-offset:3px}
+
+  .report{
+    margin-top:16px;padding:11px 14px;background:var(--seal);border-left:4px solid var(--vermillion);
+    font-size:14px;font-weight:500
+  }
+  .report b{font-weight:900}
+  .warn{
+    margin-top:14px;padding:13px 16px;background:#fdf6ee;border:1px solid #e7c9a8;font-size:14px
+  }
+  .warn .w-label{font-family:var(--mono);font-size:11px;letter-spacing:.25em;color:#a05a17;font-weight:600;display:block;margin-bottom:4px}
+  code{
+    font-family:var(--mono);font-size:.88em;background:var(--paper-deep);
+    padding:2px 6px;border:1px solid var(--line)
+  }
+  pre{
+    margin:12px 0 4px;background:var(--ink);color:#f2ead9;padding:16px 18px;overflow-x:auto;
+    font-family:var(--mono);font-size:13px;line-height:1.7;position:relative
+  }
+  .copy-btn{
+    position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;
+    background:transparent;color:#cbbfa8;border:1px solid #5c544a;padding:4px 10px;cursor:pointer;transition:.2s
+  }
+  .copy-btn:hover{background:var(--vermillion);border-color:var(--vermillion);color:#fff}
+  .os-tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.15em;border:1px solid var(--ink);padding:2px 10px;margin:14px 0 4px;font-weight:600}
+  .mail-grid{
+    margin:12px 0 4px;display:grid;gap:8px
+  }
+  .mail-row{
+    display:flex;align-items:center;gap:12px;background:var(--paper-deep);border:1px solid var(--line);padding:9px 14px;font-size:14px
+  }
+  .mail-row .tag{flex:none;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;border:1px solid var(--ink-soft);color:var(--ink-soft);padding:2px 8px}
+  .mail-row code{background:#fffdf8}
+
+  /* ===== Section label / FAQ ===== */
+  .section-label{
+    margin:64px 0 18px;display:flex;align-items:center;gap:14px;
+    font-family:'Noto Serif TC',serif;font-weight:900;font-size:23px
+  }
+  .section-label::before{content:'';width:34px;height:3px;background:var(--vermillion)}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--line)}
+
+  table{width:100%;border-collapse:collapse;background:#fffdf8;border:1px solid var(--line);font-size:14.5px;box-shadow:5px 5px 0 rgba(31,27,22,.07)}
+  th{background:var(--ink);color:var(--paper);text-align:left;padding:11px 16px;font-size:13px;letter-spacing:.15em;font-weight:700}
+  td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:top}
+  td:first-child{font-weight:700;width:38%}
+
+  .principle{
+    margin-top:48px;padding:26px 28px;background:var(--ink);color:var(--paper);
+    font-family:'Noto Serif TC',serif;font-size:17.5px;font-weight:600;line-height:2;position:relative
+  }
+  .principle::before{
+    content:'原 則';position:absolute;top:-13px;left:24px;background:var(--vermillion);color:#fff;
+    font-family:'Noto Sans TC',sans-serif;font-size:12px;font-weight:900;letter-spacing:.4em;padding:3px 14px 3px 18px
+  }
+  .principle em{color:#f0b27a;font-style:normal}
+
+  footer{margin-top:56px;padding-top:20px;border-top:3px solid var(--ink);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);letter-spacing:.1em}
+
+  @media print{
+    .progress{position:static}
+    .task,.fees{box-shadow:none;break-inside:avoid;animation:none;opacity:1;transform:none}
+    .copy-btn{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">AI Onboarding · Pre-Work Checklist</div>
+  <h1>AI 協作啟動課程<br><span class="accent">課前作業檢核表</span></h1>
+  <p class="lede">完成以下 <strong>六項</strong> 並截圖回報群組，才有上課資格。預計耗時 <strong>35–50 分鐘</strong>。卡住先截圖錯誤訊息貼群組，不要自己硬撐。</p>
+  <div class="stamp">上課<br>資格</div>
+</header>
+
+<div class="progress">
+  <div class="progress-row">
+    <span>完成進度（點任務標題打勾）</span>
+    <span><b id="count">0</b> / 6</span>
+  </div>
+  <div class="bar"><div class="bar-fill" id="bar"></div></div>
+  <div class="done-banner" id="banner">✓ 六項全數完成——記得貼回報格式到群組，課堂見！</div>
+</div>
+
+<!-- 費用說明 -->
+<div class="fees">
+  <h2>費用與補助，先說清楚</h2>
+  <div class="qa">
+    <div>
+      <div class="q">課前準備和上課時間，有鐘點費嗎？</div>
+      <div class="a">沒有。這個階段是你和卡米爾<b>互相投入的學習期</b>——你投入時間建立能力，卡米爾投入課程、工具範本與訂閱補助。它同時也是雙方確認合作默契的過程。</div>
+    </div>
+    <div>
+      <div class="q">卡米爾補助什麼？</div>
+      <div class="a"><b>學習期兩個月的 Claude Pro 訂閱費</b>。流程是「你先自行刷卡訂閱 → 再憑單據申請代墊款請款」，可請款的有兩筆：<b>① 訂閱費的台幣實際消費金額 ② 該筆消費的國際交易手續費</b>。請款四步驟如下：
+        <ol style="margin-top:8px;padding-left:20px;display:grid;gap:8px">
+          <li><b>下載 Claude 官方帳單</b>——上面必須有卡米爾統編（<b>Taiwanese VAT：70525198</b>，即第 2 項的設定）。下載路徑：<code>Account → Settings → Billing → Invoices／View → Download receipt</code></li>
+          <li><b>取得信用卡消費紀錄</b>——紙本帳單或銀行 APP 截圖皆可，需清楚顯示這筆訂閱的<b>台幣消費金額</b>與<b>國際交易手續費</b>（建議遮蔽卡號與其他無關的消費明細）</li>
+          <li><b>合併成一份 PDF</b>——上述兩份單據<b>缺一不可</b>，合併為單一 PDF 檔。檔名格式：<code>日期_claude訂閱費NT$總額_電子帳單_姓名請款.pdf</code>。例如消費金額 620 元＋手續費 9 元，檔名就是：<br><code>2026-06-06_claude訂閱費NT$629_電子帳單_祐成請款.pdf</code></li>
+          <li><b>上傳雲端並回傳連結</b>——用你的合作專用 Gmail（第 1 項）在 Google 雲端硬碟建立一個「請款專用」資料夾，共用權限設為「<b>知道連結的任何人皆可檢視</b>」，將 PDF 上傳後，把<b>該檔案的雲端連結</b>貼到群組，即完成代墊款請款申請</li>
+        </ol>
+      </div>
+    </div>
+    <div>
+      <div class="q">什麼時候撥款？請款有期限嗎？</div>
+      <div class="a"><b>撥款時間：</b>每月月底前結算你當月提出的請款紀錄，於<b>次月 5 日</b>匯入你的<b>兆豐銀行帳戶</b>。<br><b>請款期限：</b>以月份為單位，每筆消費須在<b>消費當月起的三個月內</b>提出請款，逾期不再受理。舉例：1/1 或 1/31 的消費紀錄，在 1～3 月之間提出都可以，<b>到了 4 月就不能再申請</b>。</div>
+    </div>
+    <div>
+      <div class="q">什麼時候開始有報酬？</div>
+      <div class="a">完成課程後即具備領取任務的資格。<b>正式承接任務並交付時，依任務計酬</b>。</div>
+    </div>
+  </div>
+</div>
+
+<!-- 1 -->
+<section class="task" id="t1">
+  <div class="task-head" onclick="toggle('t1')">
+    <div class="num">1</div>
+    <div class="task-title">
+      <h2>建立合作專用 Gmail</h2>
+      <div class="meta">約 5 分鐘 · 之後所有註冊都用它</div>
+    </div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="task-body">
+    <p>在所有動作開始前，請先建立一個<strong>與卡米爾合作專用</strong>的 Gmail 信箱。好處有三個：工作與私人帳號分離、未來各服務間的連動授權更簡單、合作內容的往來紀錄集中好管理。</p>
+    <p style="margin-top:10px">命名格式：<code>cameo.你的代稱@gmail.com</code>。以祐成自己為例，三種代稱取法都可以：</p>
+    <div class="mail-grid">
+      <div class="mail-row"><span class="tag">全名簡稱</span><span>cyc →</span><code>cameo.cyc@gmail.com</code></div>
+      <div class="mail-row"><span class="tag">英譯名字</span><span>yuchen →</span><code>cameo.yuchen@gmail.com</code></div>
+      <div class="mail-row"><span class="tag">英文名字</span><span>joel →</span><code>cameo.joel@gmail.com</code></div>
+    </div>
+    <div class="warn">
+      <span class="w-label">重要 · IMPORTANT</span>
+      接下來註冊 <strong>Claude（第 2 項）</strong>和 <strong>GitHub（第 3 項）</strong>時，請一律用這個 Google 帳號登入註冊，未來做連動授權設定會簡單很多。
+    </div>
+    <div class="report"><b>回報：</b>你的專用信箱地址（不用截圖，直接打字）</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="task" id="t2">
+  <div class="task-head" onclick="toggle('t2')">
+    <div class="num">2</div>
+    <div class="task-title">
+      <h2>訂閱 Claude Pro</h2>
+      <div class="meta">約 10 分鐘 · USD $20/月 · 月繳 · 填統編</div>
+    </div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="task-body">
+    <ol>
+      <li>前往 <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>，用<strong>第 1 項的專用 Google 帳號</strong>登入註冊</li>
+      <li>升級至 <strong>Pro 方案</strong>，注意付款週期的選擇（見下方說明）</li>
+      <li>在付款頁面的「<strong>Taiwanese VAT</strong>」欄位填入卡米爾統編：<code>70525198</code></li>
+      <li>完成付款，確認可以正常對話</li>
+    </ol>
+    <div class="warn">
+      <span class="w-label">付款週期 · 請選月繳</span>
+      訂閱頁面預設顯示的是 <strong>$17 USD / month（billed annually）</strong>——這是<strong>年繳方案，會一次收取整年費用</strong>。請切換成 <strong>Monthly（每月付款）</strong>，畫面會變成 <strong>$20 USD / month</strong>，訂閱這個版本。原因：補助期為兩個月，月繳才能對上補助、也方便之後自行決定去留。
+    </div>
+    <div class="warn">
+      <span class="w-label">統編 · 關係到補助請款</span>
+      「Taiwanese VAT」沒有填 <code>70525198</code> 的帳單，無法受理補助請款。如果付款時漏填，請截圖貼群組協助處理。
+    </div>
+    <div class="report"><b>回報截圖：</b>① Claude 設定頁顯示「Pro」方案 ② 帳單顯示月繳 $20 與統編</div>
+    <div class="warn">
+      <span class="w-label">注意 · NOTICE</span>
+      Pro 的用量是「Claude 對話＋Claude Code」共用同一個額度，以 5 小時為一個窗口計算。跑大任務碰到限額是正常現象，等額度重置即可，<strong>不需要、也不要開啟任何加購功能</strong>（課堂會說明原因）。
+    </div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="task" id="t3">
+  <div class="task-head" onclick="toggle('t3')">
+    <div class="num">3</div>
+    <div class="task-title">
+      <h2>註冊 GitHub</h2>
+      <div class="meta">約 10 分鐘 · 用同一個 Google 帳號</div>
+    </div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="task-body">
+    <ol>
+      <li>前往 <a href="https://github.com" target="_blank" rel="noopener">github.com</a>，選擇以 Google 登入（Continue with Google），使用<strong>第 1 項的專用帳號</strong></li>
+      <li>使用者名稱建議格式：<code>代稱-cameo</code>（例：<code>cyc-cameo</code>），方便團隊辨識</li>
+      <li>完成 email 驗證</li>
+      <li>開啟兩步驟驗證（Settings → Password and authentication）</li>
+    </ol>
+    <div class="report"><b>回報截圖：</b>GitHub 個人頁面（顯示你的使用者名稱）</div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="task" id="t4">
+  <div class="task-head" onclick="toggle('t4')">
+    <div class="num">4</div>
+    <div class="task-title">
+      <h2>安裝 Claude Code</h2>
+      <div class="meta">約 15 分鐘 · 含金鑰自我檢查</div>
+    </div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="task-body">
+    <ol>
+      <li>安裝 Node.js（v18 以上）：到 <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> 下載 LTS 版本</li>
+      <li>開啟終端機（Mac：Terminal／Windows：PowerShell），執行：</li>
+    </ol>
+    <pre><button class="copy-btn" onclick="copyCode(this)">COPY</button>npm install -g @anthropic-ai/claude-code</pre>
+    <ol start="3">
+      <li>執行 <code>claude</code>，依指示用<strong>你的 Claude Pro 帳號</strong>登入（選擇訂閱登入，不是 API）</li>
+      <li>看到 Claude Code 的歡迎畫面即成功</li>
+    </ol>
+    <div class="report"><b>回報截圖：</b>終端機顯示 Claude Code 已登入的畫面</div>
+    <div class="warn">
+      <span class="w-label">自我檢查 · 關係到你的錢包</span>
+      執行以下指令，確認結果是<strong>空白</strong>。如果有顯示任何內容，代表你的電腦設了 API 金鑰，Claude Code 會改走 API 計費而不是吃你的 $20 訂閱額度——請先回報群組處理。
+      <div class="os-tag">MAC</div>
+      <pre><button class="copy-btn" onclick="copyCode(this)">COPY</button>echo $ANTHROPIC_API_KEY</pre>
+      <div class="os-tag">WINDOWS POWERSHELL</div>
+      <pre><button class="copy-btn" onclick="copyCode(this)">COPY</button>echo $env:ANTHROPIC_API_KEY</pre>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="task" id="t5">
+  <div class="task-head" onclick="toggle('t5')">
+    <div class="num">5</div>
+    <div class="task-title">
+      <h2>系統安全基礎檢查</h2>
+      <div class="meta">約 5 分鐘 · 用內建的就好，不要另裝</div>
+    </div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="task-body">
+    <div class="os-tag">WINDOWS</div>
+    <p>設定 → 隱私權與安全性 → Windows 安全性 → 確認「病毒與威脅防護」為<strong>開啟</strong>（內建 Defender 即可，<strong>不需要另外安裝任何免費防毒</strong>）。</p>
+    <div class="os-tag">MAC</div>
+    <p>系統設定 → 隱私權與安全性 → 確認「允許下列來源的應用程式」為「<strong>App Store 與已識別的開發者</strong>」。</p>
+    <div class="report"><b>回報截圖：</b>上述設定畫面</div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="task" id="t6">
+  <div class="task-head" onclick="toggle('t6')">
+    <div class="num">6</div>
+    <div class="task-title">
+      <h2>簽署保密協議（NDA）</h2>
+      <div class="meta">約 5 分鐘</div>
+    </div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="task-body">
+    <ol>
+      <li>詳讀群組發送的保密協議（NDA）電子檔</li>
+      <li>完成電子簽署並回傳</li>
+    </ol>
+    <div class="report"><b>回報：</b>簽署完成的回執</div>
+  </div>
+</section>
+
+<!-- Report format -->
+<div class="section-label">回報格式（貼到群組）</div>
+<pre><button class="copy-btn" onclick="copyCode(this)">COPY</button>課前作業完成回報：姓名
+1. 專用 Gmail ✅（我的信箱：cameo.____@gmail.com）
+2. Claude Pro ✅（附截圖：月繳 $20 + 統編）
+3. GitHub ✅（附截圖 + 我的帳號名稱：____）
+4. Claude Code ✅（附截圖 + API_KEY 檢查為空白）
+5. 系統安全 ✅（附截圖）
+6. NDA ✅（已回傳）</pre>
+
+<!-- FAQ -->
+<div class="section-label">常見卡關</div>
+<table>
+  <thead><tr><th>狀況</th><th>處理方式</th></tr></thead>
+  <tbody>
+    <tr><td>訂閱頁找不到月繳選項</td><td>在方案頁面尋找 Annual／Monthly 的切換鈕，切到 <strong>Monthly</strong> 後金額會變成 $20</td></tr>
+    <tr><td>付款頁找不到 Taiwanese VAT 欄位</td><td>通常在帳單資訊（Billing information）區塊；找不到就截圖貼群組</td></tr>
+    <tr><td>npm 指令找不到</td><td>Node.js 沒裝好，重裝 LTS 版後<strong>重開終端機</strong></td></tr>
+    <tr><td>Mac 顯示權限不足</td><td>不要用 sudo 安裝，改用 <code>npm config set prefix ~/.npm-global</code> 後重試（細節貼群組問）</td></tr>
+    <tr><td>Claude Code 登入跳轉失敗</td><td>換預設瀏覽器再試一次</td></tr>
+    <tr><td>信用卡刷不過</td><td>換卡或貼群組，<strong>上課前務必解決</strong></td></tr>
+  </tbody>
+</table>
+
+<div class="principle">
+  卡住超過 <em>15 分鐘</em> 就貼群組，附上錯誤訊息截圖。<br>提問不是麻煩，<em>是工作流程的一部分</em>。
+</div>
+
+<footer>
+  <span>AI 協作啟動課程 · PRE-WORK v1.4</span>
+  <span>六項全勾 → 群組回報 → 課堂見</span>
+</footer>
+
+</div>
+
+<script>
+  function toggle(id){
+    const el = document.getElementById(id);
+    el.classList.toggle('checked');
+    const done = document.querySelectorAll('.task.checked').length;
+    document.getElementById('count').textContent = done;
+    document.getElementById('bar').style.width = (done/6*100) + '%';
+    document.getElementById('banner').classList.toggle('show', done === 6);
+  }
+  function copyCode(btn){
+    const text = btn.parentElement.innerText.replace(/^COPY\s*/,'').trim();
+    navigator.clipboard.writeText(text).then(()=>{
+      btn.textContent = '✓ COPIED';
+      setTimeout(()=>btn.textContent='COPY', 1600);
+    });
+  }
+</script>
+</body>
+</html>

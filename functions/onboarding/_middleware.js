@@ -20,6 +20,7 @@ export async function onRequest(context) {
   }
 
   const expected = await sign(passcode, TOKEN_MSG);
+  const selfPath = new URL(request.url).pathname; // 登入後回到原本想去的頁（支援深連結）
 
   // 處理登入表單送出
   if (request.method === "POST") {
@@ -29,12 +30,12 @@ export async function onRequest(context) {
       return new Response(null, {
         status: 303,
         headers: noStore({
-          Location: "/onboarding/",
+          Location: selfPath,
           "Set-Cookie": `${COOKIE}=${expected}; Path=/onboarding; HttpOnly; Secure; SameSite=Lax; Max-Age=${MAX_AGE}`,
         }),
       });
     }
-    return new Response(loginPage(true), {
+    return new Response(loginPage(true, selfPath), {
       status: 401,
       headers: noStore({ "Content-Type": "text/html; charset=utf-8" }),
     });
@@ -51,7 +52,7 @@ export async function onRequest(context) {
   }
 
   // 未授權：回登入頁
-  return new Response(loginPage(false), {
+  return new Response(loginPage(false, selfPath), {
     status: 401,
     headers: noStore({ "Content-Type": "text/html; charset=utf-8" }),
   });
@@ -89,7 +90,7 @@ function parseCookies(header) {
   return out;
 }
 
-function loginPage(error) {
+function loginPage(error, action) {
   return `<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -119,7 +120,7 @@ function loginPage(error) {
 </style>
 </head>
 <body>
-  <form class="card" method="POST" action="/onboarding/" autocomplete="off">
+  <form class="card" method="POST" action="${action || "/onboarding/"}" autocomplete="off">
     <div class="kicker">Cameo Partners · Private</div>
     <h1>卡米爾夥伴專區</h1>
     <p class="sub">這份課前作業檢核表僅供內部夥伴。請輸入通行碼進入。</p>
