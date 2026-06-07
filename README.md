@@ -49,7 +49,16 @@ Cloudflare Pages 偵測到 push 後自動部署，30 秒內上線。
 ### 加一頁新的夥伴資源
 1. 建資料夾 `onboarding/<名稱>/index.html`（例：`onboarding/contract/`）
 2. 在 `onboarding/index.html` 的 `ENTRIES` 陣列加一筆 `{ icon, title, desc, href:'<名稱>/' }`
-3. 完成。密碼門自動罩住新頁，不用改任何設定。
+3. 完成。密碼門自動罩住新頁，瀏覽計數也自動納入，不用改任何設定。
+
+## 使用統計（全自動，存在 Cloudflare KV）
+
+- **看數字**：夥伴專區入口頁 footer →「📊 使用統計」→ `/onboarding/stats`（鎖在密碼門後，私密）。
+- **怎麼記**：`functions/_middleware.js` 伺服器端自動數每個「成功打開的網頁」，零頁面程式。只算 200 的 HTML，略過 401、圖片、爬蟲、POST、統計頁自己。新頁自動納入。
+- **存哪**：Cloudflare KV，鍵 `p:<網址>` → 值為次數。不放 cookie、不進 git。
+- **一次性設定**：到 Cloudflare 建一個 KV namespace，綁到此 Pages 專案，**綁定名稱必須是 `VIEWS`**（Settings → Functions / Bindings → KV namespace bindings）。沒綁也不會壞（fail-safe，只是先不記數）。
+- **起算日**：`functions/onboarding/stats.js` 的 `SINCE` 常數（目前 `2026/6/7`）。
+- 想看別的頁面好名稱，編 `stats.js` 的 `LABELS` 對照表即可。
 
 ## 檔案結構
 
@@ -62,7 +71,10 @@ cameo-gallery/
 │   ├── index.html                   # 夥伴專區入口頁（清單/卡片切換）
 │   └── checklist/index.html         # 課前作業檢核表
 ├── functions/
-│   └── onboarding/_middleware.js    # /onboarding/* 的伺服器端密碼門
+│   ├── _middleware.js               # 全站瀏覽計數（伺服器端自動記到 KV）
+│   └── onboarding/
+│       ├── _middleware.js           # /onboarding/* 的伺服器端密碼門
+│       └── stats.js                 # 使用統計儀表板（/onboarding/stats，密碼保護）
 ├── build.sh                         # 掃描工具
 ├── 原始/                            # 原圖備份（.gitignore 排除，不入 repo）
 └── README.md
