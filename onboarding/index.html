@@ -51,8 +51,8 @@
   .item:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 rgba(31,27,22,.10)}
   .item:active{transform:translate(2px,2px);box-shadow:2px 2px 0 rgba(31,27,22,.10)}
   .ico{font-size:26px;line-height:1;flex:none}
-  .it-title{font-family:'Noto Serif TC',serif;font-weight:900;font-size:18px}
-  .it-desc{font-size:13.5px;color:var(--ink-soft);margin-top:3px}
+  .it-title{display:block;font-family:'Noto Serif TC',serif;font-weight:900;font-size:18px}
+  .it-desc{display:block;font-size:13.5px;color:var(--ink-soft);margin-top:3px}
   .meta-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-soft);border:1px solid var(--line);padding:2px 7px;display:inline-block;margin-top:8px}
   .arrow{color:var(--vermillion);font-weight:900;font-size:20px;flex:none}
 
@@ -136,7 +136,7 @@
                '<span class="it-body">' +
                  '<span class="it-title">' + esc(e.title) + '</span>' +
                  '<span class="it-desc">' + esc(e.desc) + '</span>' +
-                 (e.meta ? '<br><span class="meta-tag">' + esc(e.meta) + '</span>' : '') +
+                 (e.meta ? '<span class="meta-tag">' + esc(e.meta) + '</span>' : '') +
                '</span>' +
                '<span class="arrow">→</span>' +
              '</a>';
