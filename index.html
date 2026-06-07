@@ -26,6 +26,9 @@
     font-size: 22px;
     font-weight: 600;
     letter-spacing: 0.5px;
+    user-select: none;            /* 隱藏入口:連點三下不選取文字 */
+    -webkit-user-select: none;
+    touch-action: manipulation;   /* 手機連點不觸發放大 */
   }
   header .meta {
     margin-top: 6px;
@@ -198,7 +201,7 @@
 </head>
 <body>
 <header>
-  <h1>教學素材庫</h1>
+  <h1 id="title">教學素材庫</h1>
   <div class="meta" id="meta">載入中⋯</div>
   <div class="hint">點圖片複製網址，右下角放大鏡可看大圖</div>
 </header>
@@ -348,6 +351,24 @@
     if (e.key === 'ArrowLeft') navLightbox(e, -1);
     if (e.key === 'ArrowRight') navLightbox(e, 1);
   });
+
+  // 隱藏入口:標題「教學素材庫」連點三下 → 夥伴專區（再經密碼門）
+  (function() {
+    var taps = 0, timer = null;
+    var title = document.getElementById('title');
+    if (!title) return;
+    title.addEventListener('click', function() {
+      taps++;
+      if (timer) clearTimeout(timer);
+      if (taps >= 3) {
+        taps = 0;
+        showToast('開啟夥伴專區⋯');
+        setTimeout(function() { location.href = 'onboarding/'; }, 350);
+        return;
+      }
+      timer = setTimeout(function() { taps = 0; }, 1500); // 1.5 秒內點滿三下才算
+    });
+  })();
 </script>
 </body>
 </html>
