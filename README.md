@@ -34,15 +34,29 @@ git push
 ```
 Cloudflare Pages 偵測到 push 後自動部署，30 秒內上線。
 
+## 夥伴專區（/onboarding，密碼保護）
+
+`/onboarding/` 是給卡米爾內部夥伴看的「課前作業檢核表」，公開圖庫不受影響。
+
+- **網址**：https://cameo-gallery.pages.dev/onboarding/
+- **保護方式**：Cloudflare Pages Functions 伺服器端密碼門（`functions/onboarding/_middleware.js`）。沒輸對通行碼，內容根本不會送到瀏覽器；驗證成功後種 HMAC 簽章 cookie，30 天免重輸。
+- **設密碼**：到 Cloudflare 後台 → 該 Pages 專案 → **Settings → Variables and Secrets** → 新增環境變數 `ONBOARDING_PASSCODE`，值設成你要的通行碼，類型選 **Secret**，存到 **Production**。改完要重新部署一次才生效。
+- **換密碼**：改 `ONBOARDING_PASSCODE` 的值即可，所有舊 cookie 自動失效（夥伴需重輸新碼）。
+- ⚠️ 通行碼**不要**寫進 repo，只放環境變數。
+
 ## 檔案結構
 
 ```
 cameo-gallery/
-├── index.html       # 主頁面（相片牆 + lightbox + 點圖複製網址）
-├── images.json      # 圖片清單（自動產生，勿手改）
-├── images/          # 圖片放這裡
-├── build.sh         # 掃描工具
-├── 原始/            # 原圖備份（.gitignore 排除，不入 repo）
+├── index.html                       # 主頁面（相片牆 + lightbox + 點圖複製網址）
+├── images.json                      # 圖片清單（自動產生，勿手改）
+├── images/                          # 圖片放這裡
+├── onboarding/
+│   └── index.html                   # 夥伴課前作業檢核表（密碼保護）
+├── functions/
+│   └── onboarding/_middleware.js    # /onboarding/* 的伺服器端密碼門
+├── build.sh                         # 掃描工具
+├── 原始/                            # 原圖備份（.gitignore 排除，不入 repo）
 └── README.md
 ```
 
