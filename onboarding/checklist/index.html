@@ -168,14 +168,65 @@
 
   footer{margin-top:56px;padding-top:20px;border-top:3px solid var(--ink);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);letter-spacing:.1em}
 
+  /* ===== Auto TOC（桌機／大螢幕限定，朱紅墨線） ===== */
+  html{scroll-behavior:smooth}
+  .toc{
+    position:fixed;top:120px;width:150px;z-index:40;
+    right:calc(50% + 440px + 28px);
+    font-family:var(--mono);font-size:12px;line-height:1.95
+  }
+  .toc-eyebrow{font-size:10px;letter-spacing:.25em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:9px;padding-left:5px}
+  .toc ul{list-style:none}
+  .toc li a{display:inline-block;color:var(--ink-soft);opacity:.62;text-decoration:none;padding-left:5px;transition:all .3s cubic-bezier(.23,1,.32,1)}
+  .toc li.visible>a{color:var(--vermillion-deep);opacity:1;font-weight:600;transform:translateX(6px)}
+  .toc-marker{position:absolute;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:visible}
+  .toc-marker path{fill:none;stroke:var(--vermillion);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:all .3s ease;opacity:0}
+  .fees,section.task,.section-label{scroll-margin-top:76px}
+  @media(max-width:1319px){.toc{display:none}}
+
+  /* ===== 小螢幕圓點導航（<1320px，純空心／實心圓） ===== */
+  .dotnav{
+    position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:45;
+    display:flex;flex-direction:column;align-items:center;gap:3px
+  }
+  .dotnav a{display:flex;align-items:center;justify-content:center;width:30px;height:36px;text-decoration:none}
+  .dotnav .dot{
+    width:9px;height:9px;border-radius:50%;border:1.5px solid var(--ink-soft);background:transparent;
+    transition:transform .25s ease,background .25s ease,border-color .25s ease
+  }
+  .dotnav a.active .dot{background:var(--vermillion);border-color:var(--vermillion);transform:scale(1.45)}
+  @media(min-width:1320px){.dotnav{display:none}}
+  /* 窄螢幕：替圓點軌道保留右側空間，避免壓到內文 */
+  @media(max-width:969px){.wrap{padding-right:48px}}
+
   @media print{
     .progress{position:static}
+    .toc,.dotnav{display:none}
     .task,.fees{box-shadow:none;break-inside:avoid;animation:none;opacity:1;transform:none}
     .copy-btn{display:none}
   }
 </style>
 </head>
 <body>
+
+<nav class="toc" aria-label="頁面目錄">
+  <div class="toc-eyebrow">目錄 · Contents</div>
+  <ul>
+    <li><a href="#fees">費用與補助</a></li>
+    <li><a href="#t1">1 · 專用 Gmail</a></li>
+    <li><a href="#t2">2 · Claude Pro</a></li>
+    <li><a href="#t3">3 · GitHub</a></li>
+    <li><a href="#t4">4 · Claude Code</a></li>
+    <li><a href="#t5">5 · 系統安全</a></li>
+    <li><a href="#t6">6 · NDA</a></li>
+    <li><a href="#report-format">回報格式</a></li>
+    <li><a href="#faq">常見卡關</a></li>
+  </ul>
+  <svg class="toc-marker" width="200" height="600" xmlns="http://www.w3.org/2000/svg"><path d="M0 0"/></svg>
+</nav>
+
+<nav class="dotnav" aria-label="段落導航"></nav>
+
 <div class="wrap">
 
 <a href="../" style="display:inline-block;margin:22px 0 -10px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--vermillion);text-decoration:none">← 回夥伴專區</a>
@@ -197,7 +248,7 @@
 </div>
 
 <!-- 費用說明 -->
-<div class="fees">
+<div class="fees" id="fees">
   <h2>費用與補助，先說清楚</h2>
   <div class="qa">
     <div>
@@ -381,7 +432,7 @@
 </section>
 
 <!-- Report format -->
-<div class="section-label">回報格式（貼到群組）</div>
+<div class="section-label" id="report-format">回報格式（貼到群組）</div>
 <pre><button class="copy-btn" onclick="copyCode(this)">COPY</button>課前作業完成回報：姓名
 1. 專用 Gmail ✅（我的信箱：cameo.____@gmail.com）
 2. Claude Pro ✅（附截圖：月繳 $20 + 統編）
@@ -391,7 +442,7 @@
 6. NDA ✅（已回傳）</pre>
 
 <!-- FAQ -->
-<div class="section-label">常見卡關</div>
+<div class="section-label" id="faq">常見卡關</div>
 <table>
   <thead><tr><th>狀況</th><th>處理方式</th></tr></thead>
   <tbody>
@@ -431,6 +482,102 @@
       setTimeout(()=>btn.textContent='COPY', 1600);
     });
   }
+
+  // ===== Auto TOC：scrollspy + 朱紅墨線（移植 Hakim El Hattab 的 SVG path 技法） =====
+  (function(){
+    var toc = document.querySelector('.toc');
+    if(!toc) return;
+    var tocPath = document.querySelector('.toc-marker path');
+    var tocItems = [];
+    var TOP_MARGIN = 0.1, BOTTOM_MARGIN = 0.2;
+    var pathLength, lastStart, lastEnd;
+
+    // 從同一份目錄清單生成右側圓點（小螢幕用，單一資料來源）
+    var dotnav = document.querySelector('.dotnav');
+    var dotItems = [];
+    if(dotnav){
+      [].slice.call(toc.querySelectorAll('li a')).forEach(function(a){
+        var href = a.getAttribute('href');
+        var target = document.getElementById(href.slice(1));
+        if(!target) return;
+        var d = document.createElement('a');
+        d.href = href;
+        d.setAttribute('aria-label', '跳到 ' + a.textContent.trim());
+        d.innerHTML = '<span class="dot"></span>';
+        dotnav.appendChild(d);
+        dotItems.push({ anchor:d, target:target });
+      });
+    }
+
+    function drawPath(){
+      tocItems = [].slice.call(toc.querySelectorAll('li')).map(function(item){
+        var a = item.querySelector('a');
+        return { listItem:item, anchor:a, target:document.getElementById(a.getAttribute('href').slice(1)) };
+      }).filter(function(i){ return !!i.target; });
+
+      var path = [], pathIndent;
+      tocItems.forEach(function(item, i){
+        var x = item.anchor.offsetLeft - 5,
+            y = item.anchor.offsetTop,
+            h = item.anchor.offsetHeight;
+        if(i === 0){ path.push('M', x, y, 'L', x, y + h); item.pathStart = 0; }
+        else {
+          if(pathIndent !== x) path.push('L', pathIndent, y);
+          path.push('L', x, y);
+          tocPath.setAttribute('d', path.join(' '));
+          item.pathStart = tocPath.getTotalLength() || 0;
+          path.push('L', x, y + h);
+        }
+        pathIndent = x;
+        tocPath.setAttribute('d', path.join(' '));
+        item.pathEnd = tocPath.getTotalLength();
+      });
+      pathLength = tocPath.getTotalLength();
+      sync();
+    }
+
+    function sync(){
+      var wh = window.innerHeight;
+      var pathStart = pathLength, pathEnd = 0, visible = 0;
+      tocItems.forEach(function(item){
+        var b = item.target.getBoundingClientRect();
+        if(b.bottom > wh * TOP_MARGIN && b.top < wh * (1 - BOTTOM_MARGIN)){
+          pathStart = Math.min(item.pathStart, pathStart);
+          pathEnd = Math.max(item.pathEnd, pathEnd);
+          visible++;
+          item.listItem.classList.add('visible');
+        } else {
+          item.listItem.classList.remove('visible');
+        }
+      });
+      if(visible > 0 && pathStart < pathEnd){
+        if(pathStart !== lastStart || pathEnd !== lastEnd){
+          tocPath.setAttribute('stroke-dashoffset', '1');
+          tocPath.setAttribute('stroke-dasharray', '1, ' + pathStart + ', ' + (pathEnd - pathStart) + ', ' + pathLength);
+          tocPath.setAttribute('opacity', 1);
+        }
+      } else {
+        tocPath.setAttribute('opacity', 0);
+      }
+      lastStart = pathStart; lastEnd = pathEnd;
+
+      // 圓點：標記當前段（fold 線上方最後一段）
+      if(dotItems.length){
+        var curIdx = 0;
+        dotItems.forEach(function(it, i){
+          if(it.target.getBoundingClientRect().top <= 140) curIdx = i;
+        });
+        dotItems.forEach(function(it, i){
+          it.anchor.classList.toggle('active', i === curIdx);
+        });
+      }
+    }
+
+    window.addEventListener('resize', drawPath, false);
+    window.addEventListener('scroll', sync, false);
+    window.addEventListener('load', drawPath, false);
+    drawPath();
+  })();
 </script>
 </body>
 </html>
