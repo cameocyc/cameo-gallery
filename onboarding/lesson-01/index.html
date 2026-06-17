@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>AI 協作啟動課程｜第一堂課 · 回顧與補課</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f7f3ec;--paper-deep:#efe8dc;--ink:#1f1b16;--ink-soft:#5c544a;
+    --vermillion:#c8401f;--vermillion-deep:#a33218;--seal:#e8d9c3;
+    --ok:#2e7d4f;--line:#d8cdbb;--mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:'Noto Sans TC',sans-serif;background:var(--paper);color:var(--ink);
+    line-height:1.75;-webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 15% 10%, rgba(200,64,31,.04), transparent 40%),
+      repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(31,27,22,.035) 31px, rgba(31,27,22,.035) 32px);
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px 96px}
+
+  /* ===== Header ===== */
+  header{padding:60px 0 36px;border-bottom:3px solid var(--ink);position:relative}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.35em;color:var(--vermillion);text-transform:uppercase;margin-bottom:14px}
+  h1{font-family:'Noto Serif TC',serif;font-weight:900;font-size:clamp(28px,5.2vw,46px);line-height:1.25;letter-spacing:.02em}
+  h1 .accent{color:var(--vermillion)}
+  .lede{margin-top:16px;max-width:600px;color:var(--ink-soft);font-size:15.5px}
+  .lede strong{color:var(--ink)}
+  .stamp{
+    position:absolute;right:0;top:54px;width:96px;height:96px;border:3px double var(--vermillion);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-family:'Noto Serif TC',serif;font-weight:900;color:var(--vermillion);font-size:17px;
+    transform:rotate(8deg);letter-spacing:.12em;text-align:center;line-height:1.4;opacity:.85
+  }
+  @media(max-width:640px){.stamp{display:none}}
+
+  /* ===== 三種人 signpost ===== */
+  .who{margin-top:34px;display:grid;gap:0;border:2px solid var(--ink);background:#fffdf8;box-shadow:5px 5px 0 rgba(31,27,22,.10);position:relative}
+  .who::before{content:'這頁誰能用？';position:absolute;top:-14px;left:22px;background:var(--ink);color:var(--paper);font-size:12px;font-weight:900;letter-spacing:.3em;padding:4px 16px}
+  .who-row{display:flex;align-items:flex-start;gap:14px;padding:16px 22px;text-decoration:none;color:inherit;transition:background .15s}
+  .who-row + .who-row{border-top:1px dashed var(--line)}
+  .who-row:hover{background:var(--paper-deep)}
+  .who-ico{flex:none;font-size:24px;line-height:1.2}
+  .who-body{flex:1;min-width:0}
+  .who-t{font-family:'Noto Serif TC',serif;font-weight:900;font-size:16.5px}
+  .who-d{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+  .who-go{flex:none;align-self:center;color:var(--vermillion);font-weight:900;font-size:20px}
+
+  /* ===== 區段標題 ===== */
+  .section-label{margin:60px 0 18px;display:flex;align-items:center;gap:14px;font-family:'Noto Serif TC',serif;font-weight:900;font-size:23px;scroll-margin-top:24px}
+  .section-label::before{content:'';width:34px;height:3px;background:var(--vermillion);flex:none}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--line)}
+  .section-label .n{font-family:var(--mono);font-size:13px;color:var(--vermillion);letter-spacing:.1em;flex:none}
+
+  /* ===== 影片 ===== */
+  .video{margin-top:8px;background:#fffdf8;border:1px solid var(--line);box-shadow:5px 5px 0 rgba(31,27,22,.07);padding:18px}
+  .video .frame{position:relative;width:100%;aspect-ratio:16/9;background:var(--ink);border:1px solid var(--line)}
+  .video .frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .video .cap{margin-top:12px;font-size:13.5px;color:var(--ink-soft)}
+  .video .cap a{color:var(--vermillion);font-weight:700}
+
+  /* ===== 資源按鈕列 ===== */
+  .res{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .res a{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fffdf8;border:1px solid var(--line);box-shadow:3px 3px 0 rgba(31,27,22,.06);text-decoration:none;color:inherit;transition:transform .12s,box-shadow .12s}
+  .res a:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 rgba(31,27,22,.09)}
+  .res .ic{font-size:22px;flex:none}
+  .res .tt{font-weight:900;font-size:14.5px}
+  .res .ds{font-size:12px;color:var(--ink-soft)}
+
+  /* ===== 測試題卡 ===== */
+  .quest{margin-top:16px;padding:16px 18px;background:var(--seal);border-left:4px solid var(--vermillion);font-size:14.5px}
+  .quest .lab{font-family:var(--mono);font-size:11px;letter-spacing:.25em;color:var(--vermillion-deep);font-weight:600;display:block;margin-bottom:6px}
+
+  /* ===== 進度 ===== */
+  .progress{position:sticky;top:0;z-index:50;background:var(--paper);padding:14px 0 12px;border-bottom:1px solid var(--line);margin-top:8px}
+  .progress-row{display:flex;align-items:baseline;justify-content:space-between;font-family:var(--mono);font-size:12.5px;margin-bottom:8px}
+  .progress-row b{color:var(--vermillion);font-size:15px}
+  .pbar{height:8px;background:var(--paper-deep);border:1px solid var(--line);position:relative;overflow:hidden}
+  .pbar-fill{position:absolute;inset:0;width:0%;background:repeating-linear-gradient(-45deg,var(--vermillion),var(--vermillion) 6px,var(--vermillion-deep) 6px,var(--vermillion-deep) 12px);transition:width .5s cubic-bezier(.22,1,.36,1)}
+  .done-banner{display:none;margin-top:10px;padding:10px 14px;background:var(--ok);color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em}
+  .done-banner.show{display:block;animation:pop .4s ease}
+  @keyframes pop{0%{transform:scale(.96);opacity:0}100%{transform:scale(1);opacity:1}}
+
+  /* ===== 複習卡 ===== */
+  .rev{margin-top:18px;background:#fffdf8;border:1px solid var(--line);box-shadow:5px 5px 0 rgba(31,27,22,.07);scroll-margin-top:76px}
+  .rev-head{display:flex;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px dashed var(--line);cursor:pointer;user-select:none}
+  .rev-num{flex:none;width:44px;height:44px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-family:'Noto Serif TC',serif;font-weight:900;font-size:20px;background:var(--paper)}
+  .rev.checked .rev-num{background:var(--vermillion);border-color:var(--vermillion);color:#fff}
+  .rev-title{flex:1;min-width:0}
+  .rev-title h3{font-size:17.5px;font-weight:900;letter-spacing:.02em}
+  .rev-title .meta{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:2px}
+  .rev .checkbox{flex:none;width:28px;height:28px;border:2px solid var(--ink);background:#fff;position:relative;transition:.2s}
+  .rev.checked .checkbox{background:var(--ok);border-color:var(--ok)}
+  .rev.checked .checkbox::after{content:'';position:absolute;left:8px;top:2px;width:8px;height:15px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(43deg)}
+  .rev.checked .rev-title h3{text-decoration:line-through;text-decoration-color:var(--vermillion);text-decoration-thickness:2px;opacity:.62}
+  .rev-body{padding:18px 22px 22px;font-size:15px}
+  .rev-body p+p{margin-top:8px}
+  .rev-body ul,.rev-body ol{padding-left:22px;display:grid;gap:5px;margin-top:8px}
+  .rev-body li::marker{font-weight:700;color:var(--vermillion)}
+  .rev-body a{color:var(--vermillion);font-weight:700;text-underline-offset:3px}
+  .tip{margin-top:14px;padding:11px 15px;background:#fdf6ee;border:1px solid #e7c9a8;font-size:13.8px}
+  .tip .lab{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:#a05a17;font-weight:600;display:block;margin-bottom:4px}
+
+  /* ===== 可複製指令／提示 ===== */
+  .prompt{margin:12px 0 4px;position:relative;background:var(--ink);color:#f2ead9;padding:15px 18px;font-family:var(--mono);font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;border-left:4px solid var(--vermillion)}
+  .copy-btn{position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;background:transparent;color:#cbbfa8;border:1px solid #5c544a;padding:4px 10px;cursor:pointer;transition:.2s}
+  .copy-btn:hover{background:var(--vermillion);border-color:var(--vermillion);color:#fff}
+  code{font-family:var(--mono);font-size:.88em;background:var(--paper-deep);padding:2px 6px;border:1px solid var(--line)}
+  .os-tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.15em;border:1px solid var(--ink);padding:2px 10px;margin:8px 8px 4px 0;font-weight:600}
+
+  /* ===== 步驟表 ===== */
+  table{width:100%;border-collapse:collapse;background:#fffdf8;border:1px solid var(--line);font-size:14px;box-shadow:5px 5px 0 rgba(31,27,22,.07)}
+  th{background:var(--ink);color:var(--paper);text-align:left;padding:11px 14px;font-size:12.5px;letter-spacing:.12em;font-weight:700}
+  td{padding:11px 14px;border-top:1px solid var(--line);vertical-align:top}
+  td:first-child{font-weight:900;width:46px;text-align:center;color:var(--vermillion);font-family:var(--mono)}
+  td code{font-size:.82em}
+  .ph{background:var(--paper-deep)}
+  .ph td{font-weight:900;letter-spacing:.05em;color:var(--ink);font-family:'Noto Serif TC',serif}
+
+  /* ===== 概念對照 ===== */
+  .compare{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:560px){.compare{grid-template-columns:1fr}}
+  .ccard{background:#fffdf8;border:1px solid var(--line);box-shadow:4px 4px 0 rgba(31,27,22,.07);padding:18px 20px}
+  .ccard h4{font-family:'Noto Serif TC',serif;font-size:17px;font-weight:900;margin-bottom:4px}
+  .ccard .sub{font-family:var(--mono);font-size:11.5px;color:var(--vermillion);letter-spacing:.1em;margin-bottom:10px}
+  .ccard ul{padding-left:18px;display:grid;gap:5px;font-size:14px}
+  .ccard li::marker{color:var(--vermillion)}
+
+  /* ===== 下次預告 ===== */
+  .next{margin-top:18px;padding:24px 26px;background:var(--ink);color:var(--paper);position:relative}
+  .next::before{content:'下次預告';position:absolute;top:-13px;left:24px;background:var(--vermillion);color:#fff;font-size:12px;font-weight:900;letter-spacing:.3em;padding:3px 14px}
+  .next h3{font-family:'Noto Serif TC',serif;font-size:19px;font-weight:900;margin-bottom:10px;color:#fff}
+  .next p{font-size:14.5px;color:#e7ddcb}
+  .next .em{color:#f0b27a;font-weight:700}
+
+  .principle{margin-top:48px;padding:24px 28px;background:var(--seal);border-left:5px solid var(--vermillion);font-family:'Noto Serif TC',serif;font-size:16.5px;font-weight:600;line-height:2}
+  .principle em{color:var(--vermillion-deep);font-style:normal}
+
+  footer{margin-top:48px;padding-top:20px;border-top:3px solid var(--ink);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);letter-spacing:.1em}
+  footer a{color:var(--vermillion);text-decoration:none}
+
+  /* ===== Auto TOC（桌機）===== */
+  html{scroll-behavior:smooth}
+  .toc{position:fixed;top:120px;width:160px;z-index:40;right:calc(50% + 440px + 28px);font-family:var(--mono);font-size:12px;line-height:1.95}
+  .toc-eyebrow{font-size:10px;letter-spacing:.25em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:9px;padding-left:5px}
+  .toc ul{list-style:none}
+  .toc li a{display:inline-block;color:var(--ink-soft);opacity:.62;text-decoration:none;padding-left:5px;transition:all .3s cubic-bezier(.23,1,.32,1)}
+  .toc li.visible>a{color:var(--vermillion-deep);opacity:1;font-weight:600;transform:translateX(6px)}
+  @media(max-width:1319px){.toc{display:none}}
+
+  .dotnav{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:45;display:flex;flex-direction:column;align-items:center;gap:3px}
+  .dotnav a{display:flex;align-items:center;justify-content:center;width:30px;height:36px;text-decoration:none}
+  .dotnav .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--ink-soft);background:transparent;transition:transform .25s,background .25s,border-color .25s}
+  .dotnav a.active .dot{background:var(--vermillion);border-color:var(--vermillion);transform:scale(1.45)}
+  @media(min-width:1320px){.dotnav{display:none}}
+  @media(max-width:969px){.wrap{padding-right:48px}}
+
+  @media print{.progress{position:static}.toc,.dotnav,.copy-btn{display:none}.rev,.video{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+
+<nav class="toc" aria-label="頁面目錄">
+  <div class="toc-eyebrow">目錄 · Contents</div>
+  <ul>
+    <li><a href="#video">課程回放與資源</a></li>
+    <li><a href="#review">五大複習重點</a></li>
+    <li><a href="#steps">本地端 11 步</a></li>
+    <li><a href="#concept">關鍵觀念對照</a></li>
+    <li><a href="#cheat">卡關速查</a></li>
+    <li><a href="#next">下次預告</a></li>
+  </ul>
+</nav>
+<nav class="dotnav" aria-label="段落導航"></nav>
+
+<div class="wrap">
+
+<a href="../" style="display:inline-block;margin:22px 0 -10px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--vermillion);text-decoration:none">← 回夥伴專區</a>
+
+<header>
+  <div class="kicker">AI Onboarding · Lesson 1 Recap</div>
+  <h1>第一堂課<br><span class="accent">回顧與補課</span></h1>
+  <p class="lede">這堂課我們把 <strong>「想法 → 網頁 → 發佈上線」</strong> 整條路走了一遍，網頁版和本地端 CLI 兩種做法都練到。不論你<strong>上過課想複習</strong>、<strong>缺席要補課</strong>，還是<strong>還沒上課想先看</strong>，這頁都能跟著做。</p>
+  <div class="stamp">第一<br>堂課</div>
+</header>
+
+<!-- 三種人 -->
+<div class="who">
+  <a class="who-row" href="#review">
+    <span class="who-ico">🔁</span>
+    <span class="who-body">
+      <span class="who-t">上過課 · 我要複習</span>
+      <span class="who-d">直接看下面五大重點，邊回想邊打勾，把指令再練一次</span>
+    </span>
+    <span class="who-go">→</span>
+  </a>
+  <a class="who-row" href="#video">
+    <span class="who-ico">🎬</span>
+    <span class="who-body">
+      <span class="who-t">缺席了 · 我要補課</span>
+      <span class="who-d">先看課程回放影片，再照五大重點與 11 步驟自己走一遍</span>
+    </span>
+    <span class="who-go">→</span>
+  </a>
+  <a class="who-row" href="#review">
+    <span class="who-ico">👀</span>
+    <span class="who-body">
+      <span class="who-t">還沒上課 · 我想先看</span>
+      <span class="who-d">先掃過這堂會學到什麼；想動手的話，照著做也能自己完成</span>
+    </span>
+    <span class="who-go">→</span>
+  </a>
+</div>
+
+<!-- 影片與資源 -->
+<div class="section-label" id="video"><span class="n">01</span>課程回放與資源</div>
+
+<div class="video">
+  <div class="frame">
+    <iframe src="https://drive.google.com/file/d/1iKti62OnVGiJAliaP2G4T_rTvKHTSIIc/preview" allow="autoplay" allowfullscreen></iframe>
+  </div>
+  <p class="cap">第一堂課完整錄影（6/16 線上共學）。看不到畫面的話，<a href="https://drive.google.com/file/d/1iKti62OnVGiJAliaP2G4T_rTvKHTSIIc/view?usp=sharing" target="_blank" rel="noopener">點這裡在新分頁開啟 ↗</a>（需用你的合作專用 Google 帳號登入）。</p>
+</div>
+
+<div class="res">
+  <a href="https://drive.google.com/drive/folders/1czSE7RzG9iDPy9aTvWdo7tuvn_loQnzB?usp=drive_link" target="_blank" rel="noopener">
+    <span class="ic">📁</span><span><span class="tt">共用雲端資料夾</span><br><span class="ds">課堂交流、檔案分享都在這</span></span>
+  </a>
+  <a href="../checklist/">
+    <span class="ic">✅</span><span><span class="tt">課前作業檢核表</span><br><span class="ds">還沒備齊環境？先回去逐項打勾</span></span>
+  </a>
+</div>
+
+<div class="quest">
+  <span class="lab">本堂測試題 · 從頭到尾就做這一題</span>
+  整堂課所有練習，都圍繞同一道題目——把它丟給 Claude，做出一個網頁、再發佈上線：
+  <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>請幫我做一個網站，裡面是有關台灣股市最近 7 天的重磅新聞的資訊看板</div>
+</div>
+
+<!-- 五大複習重點 -->
+<div class="section-label" id="review"><span class="n">02</span>五大複習重點</div>
+
+<div class="progress">
+  <div class="progress-row">
+    <span>複習進度（點標題打勾）</span>
+    <span><b id="count">0</b> / 5</span>
+  </div>
+  <div class="pbar"><div class="pbar-fill" id="bar"></div></div>
+  <div class="done-banner" id="banner">✓ 五項全數複習完畢——你已經能獨立把想法變成上線網頁了！</div>
+</div>
+
+<!-- R1 -->
+<section class="rev" id="r1">
+  <div class="rev-head" onclick="toggle('r1')">
+    <div class="rev-num">1</div>
+    <div class="rev-title"><h3>用 Claude 網頁版做網頁</h3><div class="meta">Chat 模式 · 約 3 分鐘</div></div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="rev-body">
+    <p>開一個<strong>新對話</strong>，把測試題貼進去發送。Claude 會自己找資料、分析、做出一個網頁（artifact），大概要跑 <strong>3 分鐘</strong>，先讓它跑。</p>
+    <ul>
+      <li><strong>注意模式：</strong>要用 <strong>Chat 模式</strong>（在 Claude 雲端主機工作，能直接發佈）。如果你左邊看到 <code>Cowork</code> 模式，那是在你自己電腦工作、不會自動發佈——做網頁要發佈請切回 Chat。</li>
+      <li><strong>隨機性是正常的：</strong>有時它只把內容印出來、沒做成網頁。沒關係，再補一句就好：</li>
+    </ul>
+    <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>幫我做成網頁</div>
+    <div class="tip"><span class="lab">心法</span>哪怕是全世界最厲害的產品，也有隨機出錯的時候。出錯了不用慌，<strong>再發送一次</strong>就好。</div>
+  </div>
+</section>
+
+<!-- R2 -->
+<section class="rev" id="r2">
+  <div class="rev-head" onclick="toggle('r2')">
+    <div class="rev-num">2</div>
+    <div class="rev-title"><h3>用 Claude 網頁版直接發佈</h3><div class="meta">最快 · 一個連結分享全世界</div></div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="rev-body">
+    <p>網頁做好後，在 artifact 畫面：</p>
+    <ol>
+      <li>右上角的<strong>下拉選項</strong>找到 <code>Publish artifact</code></li>
+      <li>幫它命名 → 按 <code>Publish</code></li>
+      <li>變成 <code>Open the link</code> → <strong>Copy link</strong></li>
+      <li>把連結貼出去，任何人都能看到你的成果</li>
+    </ol>
+    <div class="tip"><span class="lab">想收回</span>同一個地方按 <code>Unpublish</code> 就不再公開。你發佈過的東西可以在 Claude 設定裡找到清單。</div>
+  </div>
+</section>
+
+<!-- R3 -->
+<section class="rev" id="r3">
+  <div class="rev-head" onclick="toggle('r3')">
+    <div class="rev-num">3</div>
+    <div class="rev-title"><h3>用 Netlify Drop 發佈靜態網頁</h3><div class="meta">拖資料夾就上線 · 無限個</div></div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="rev-body">
+    <p>當你手上是一個<strong>下載好的 HTML 檔（或一整包資料夾）</strong>，想自己發佈，就用 <a href="https://www.netlify.com/" target="_blank" rel="noopener">Netlify</a>。忘記怎麼用？直接問 Claude：</p>
+    <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>我想要免費發佈靜態網頁，超級簡單、免費，用什麼工具？請教我步驟</div>
+    <ul>
+      <li><strong>用 GitHub 帳號登入</strong>（不用另記帳密、好管理）</li>
+      <li>填資料時：公司名可跳過或填 <code>N/A</code>；身份選 <strong>personal / other / student</strong>——最「卑微」的身份通常全部免費</li>
+      <li>把網頁<strong>拖進去</strong>就上傳，按那行<strong>綠色連結</strong>就發佈完成</li>
+    </ul>
+    <div class="tip"><span class="lab">兩個小坑</span>① 發佈失敗很常見，<strong>重做一次</strong>常常就好。② 直接拖檔到 Netlify Drop 雖快，但容易忘記丟到哪、之後找不到；想長期管理，改從<strong>官網登入</strong>用帳號發佈。（對照：Cloudflare Pages 也免費，但拖檔最多只能放一個網頁；Netlify 可以無限個。）</div>
+  </div>
+</section>
+
+<!-- R4 -->
+<section class="rev" id="r4">
+  <div class="rev-head" onclick="toggle('r4')">
+    <div class="rev-num">4</div>
+    <div class="rev-title"><h3>用 Claude CLI 連動 GitHub 建新 repo</h3><div class="meta">本地端 · 火車模式</div></div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="rev-body">
+    <p>本地端（終端機裡的 Claude）才是真正的主力。<strong>先確認裝好</strong>：裝 Node.js → 終端機輸入 <code>claude</code> 按 Enter，看到歡迎畫面（顯示 4.8 模型、權限、工作目錄）就代表成功。歡迎動畫每次長得不一樣，是正常的。</p>
+    <div class="os-tag">起頭指令二選一</div>
+    <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>claude</div>
+    <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>claude --dangerously-skip-permissions</div>
+    <ul>
+      <li><code>claude</code> ＝ <strong>安全模式</strong>：每個動作都先問你「可以這樣做嗎？」</li>
+      <li><code>--dangerously-skip-permissions</code> ＝ <strong>暴力模式</strong>：它覺得可以就直接做、不問你</li>
+    </ul>
+    <div class="tip"><span class="lab">什麼時候別用暴力模式</span>電腦裡有很多珍貴資料、又沒有異地備份，刪掉會哭——就乖乖用安全模式。備份做好了再考慮放手。</div>
+    <p style="margin-top:14px">建立 repo 三句話（依序貼給 Claude，<code>「」</code>裡換成你自己的）：</p>
+    <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>我等等要在這裡工作 「貼上你的專案資料夾位置」</div>
+    <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>我現在在上示範教學課程，我要用這個資料夾，也和我的 GitHub 帳號「你的帳號」連動使用，請幫我建立一個會議記錄的新 repo</div>
+    <div class="tip"><span class="lab">小提醒</span>找不到自己的 GitHub 帳號？打開瀏覽器你的 GitHub 頁面，網址最短的那一段就是。建立新資產時<strong>選私有（Private）</strong>——公開＝全世界看得到，沒必要就一律私有。</div>
+  </div>
+</section>
+
+<!-- R5 -->
+<section class="rev" id="r5">
+  <div class="rev-head" onclick="toggle('r5')">
+    <div class="rev-num">5</div>
+    <div class="rev-title"><h3>把別人分享的 repo 拉（pull）下來</h3><div class="meta">共編協作的關鍵</div></div>
+    <div class="checkbox"></div>
+  </div>
+  <div class="rev-body">
+    <p>未來 PM 發任務，常常就是<strong>共享一個 repo</strong> 給你。對方在 repo 的 <code>Settings → Collaborators</code> 加你的帳號邀你（需先用 GitHub App 做手機數位認證，這步省不了）。你這邊要做兩件事：</p>
+    <ol>
+      <li>打開<strong>合作專用信箱</strong>，<strong>接受 repo 邀請</strong>（沒接受會出現 404 / 找不到擁有者）</li>
+      <li>把 repo 名字貼給本地端 Claude，請它拉下來：</li>
+    </ol>
+    <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>剛剛同事分享了這個 repo 給我 cyc-meetings，請你幫我拉下來</div>
+    <p style="margin-top:10px">不知道它拉到哪了？直接問：</p>
+    <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>請幫我看看拉下來的 repo 你放在哪裡，把資料夾的位置印給我</div>
+    <div class="tip"><span class="lab">在哪裡找得到</span>別人分享給你的 repo，不在「My repositories」，而在 <strong>Contributions</strong>（因為擁有者不是你，你是協助者）。被邀請的是<strong>編輯權限</strong>，所以你可以直接在裡面幫忙做東西。</div>
+  </div>
+</section>
+
+<!-- 11 步驟表 -->
+<div class="section-label" id="steps"><span class="n">03</span>本地端 GitHub 連動 · 11 步</div>
+<p style="font-size:14px;color:var(--ink-soft);margin:-4px 0 14px">這是課堂步驟清單表的網頁版，補課時照著一行一行走。前面有 <code>「」</code> 的，換成你自己的內容。</p>
+<table>
+  <thead><tr><th style="width:46px">#</th><th>做什麼</th></tr></thead>
+  <tbody>
+    <tr class="ph"><td>—</td><td>前置 · 把環境與帳號準備好</td></tr>
+    <tr><td>·</td><td>確認 Claude 訂閱成功、GitHub 已註冊、雙重驗證（Microsoft Authenticator）已開</td></tr>
+    <tr class="ph"><td>—</td><td>連動 · 建立你自己的 repo</td></tr>
+    <tr><td>1</td><td>建立本地端的<strong>專用資料夾</strong>（命名習慣：<code>GitHub--帳號別</code>，例 <code>GitHub--cameocyc</code>）</td></tr>
+    <tr><td>2</td><td>複製資料夾位置，回終端機說：<code>我等等要在這裡工作「貼上資料夾位置」</code></td></tr>
+    <tr><td>3</td><td><code>…我要用這個資料夾，也和我的 GitHub 帳號「你的帳號」連動使用，請幫我建立一個會議記錄的新 repo</code>（選 <strong>私有</strong>）</td></tr>
+    <tr><td>4</td><td>檢查<strong>本地端</strong>建立是否成功（打開資料夾看有沒有東西、README）</td></tr>
+    <tr><td>5</td><td>檢查<strong>線上</strong>建立是否成功（去 <code>github.com/你的帳號/repo名</code>）</td></tr>
+    <tr><td>6</td><td>檢查所有發佈過的 repo（左上角漢堡選單 → <code>All repositories</code>）</td></tr>
+    <tr class="ph"><td>—</td><td>協作 · 分享與拉取</td></tr>
+    <tr><td>7</td><td><strong>共享 repo</strong>：Settings → Collaborators → 數位認證 → 收集大家帳號 → 邀請（編輯權限）</td></tr>
+    <tr><td>8</td><td>請 Claude 拉下別人分享的 repo：<code>剛剛同事分享了這個 repo 給我 cyc-meetings，請你幫我拉下來</code></td></tr>
+    <tr><td>9</td><td>到自己<strong>信箱接受 repo 邀請</strong>（沒接受會 404）</td></tr>
+    <tr><td>10</td><td><code>請幫我看看拉下來的 repo 你放在哪裡，把資料夾的位置印給我</code></td></tr>
+    <tr><td>11</td><td>線上檢查是否也看得到新 repo（協助者的 repo 在 <strong>Contributions</strong>）</td></tr>
+  </tbody>
+</table>
+
+<!-- 關鍵觀念 -->
+<div class="section-label" id="concept"><span class="n">04</span>關鍵觀念對照</div>
+<div class="compare">
+  <div class="ccard">
+    <h4>網頁版　🏎</h4>
+    <div class="sub">CLAUDE WEB · 跑車</div>
+    <ul>
+      <li>功能都幫你做好了，開箱即用</li>
+      <li>快、漂亮、好上手</li>
+      <li>環境固定，能力有上限</li>
+      <li>Chat 模式可一鍵發佈</li>
+    </ul>
+  </div>
+  <div class="ccard">
+    <h4>本地端 CLI　🚂</h4>
+    <div class="sub">CLAUDE CODE · 火車</div>
+    <ul>
+      <li>什麼都得自己 DIY</li>
+      <li>最強、什麼都能做</li>
+      <li>在你自己電腦上工作</li>
+      <li>真正承接任務的主力</li>
+    </ul>
+  </div>
+  <div class="ccard">
+    <h4>Chat 模式</h4>
+    <div class="sub">雲端主機環境</div>
+    <ul>
+      <li>在 Claude 的網路主機上工作</li>
+      <li>做完可以立刻 Publish 發佈</li>
+    </ul>
+  </div>
+  <div class="ccard">
+    <h4>Cowork 模式</h4>
+    <div class="sub">你的電腦環境</div>
+    <ul>
+      <li>下載 App 後才會出現</li>
+      <li>成果只留在你電腦、不自動發佈</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 卡關速查 -->
+<div class="section-label" id="cheat"><span class="n">05</span>卡關速查</div>
+<p style="font-size:14px;color:var(--ink-soft);margin:-4px 0 14px">這是整堂課最該帶走的一招——<strong>遇到任何卡關，截圖丟給 Claude</strong>，貼上這句：</p>
+<div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>我卡在這裡，請教我，給我指令就好，不要告訴我太多我聽不懂的東西。下一步是什麼？</div>
+<table style="margin-top:18px">
+  <thead><tr><th>狀況</th><th>處理方式</th></tr></thead>
+  <tbody>
+    <tr><td style="width:38%;text-align:left;color:var(--ink);font-family:inherit">複製的東西在終端機貼不上去（Windows）</td><td>不要按 <code>Ctrl+V</code>，改用<strong>滑鼠右鍵貼上</strong></td></tr>
+    <tr><td style="width:38%;text-align:left;color:var(--ink);font-family:inherit">終端機字太小（Mac）</td><td><code>Command + +</code> 放大，像瀏覽器一樣</td></tr>
+    <tr><td style="width:38%;text-align:left;color:var(--ink);font-family:inherit">要把畫面問題問 Claude</td><td>Mac 截圖 <code>Command+Shift+4</code> → 拖進終端機，或貼到網頁版新對話（有圖有文更好溝通）</td></tr>
+    <tr><td style="width:38%;text-align:left;color:var(--ink);font-family:inherit">下載雙重驗證 App 被要求付費</td><td>那是假的／釣魚——<strong>雙重驗證一定免費</strong>。到 App Store 搜 <code>AUTH</code>，認明藍色盾牌中間一把鎖（Microsoft Authenticator）</td></tr>
+    <tr><td style="width:38%;text-align:left;color:var(--ink);font-family:inherit">CLI 說要先裝 <code>GH</code></td><td>那是 GitHub CLI（終端機跟 GitHub 溝通的套件），請它幫你裝一次，之後就不會再遇到</td></tr>
+    <tr><td style="width:38%;text-align:left;color:var(--ink);font-family:inherit">終端機呼叫不出瀏覽器授權</td><td>確認瀏覽器登入的是<strong>同一個帳號</strong>；Windows 可能要開某個隱私權設定——卡住就截圖問群組</td></tr>
+  </tbody>
+</table>
+
+<!-- 下次預告 -->
+<div class="section-label" id="next"><span class="n">06</span>下次預告</div>
+<div class="next">
+  <h3>第二堂課：三個小任務，動手體驗</h3>
+  <p>下次會安排 <span class="em">三個小任務</span>，讓大家把這堂學到的真的用起來。已經學會的人，可以先自己<strong>建一個新的 repo 來練手</strong>。時間最快會落在 <span class="em">7 月 1 號以後</span>，敲到更近的時段我再另外揪。</p>
+</div>
+
+<div class="principle">
+  上課沒跟上、沒記到，<em>都沒關係</em>——影片會回放，這頁隨時能補。<br>真正的學習，是<em>遇到卡關時，知道怎麼問</em>。
+</div>
+
+<footer>
+  <a href="../">← 回夥伴專區</a>
+  <span>記得到 RAGIC 打卡 · 課堂見</span>
+</footer>
+
+</div>
+
+<script>
+  function toggle(id){
+    var el = document.getElementById(id);
+    el.classList.toggle('checked');
+    var done = document.querySelectorAll('.rev.checked').length;
+    document.getElementById('count').textContent = done;
+    document.getElementById('bar').style.width = (done/5*100) + '%';
+    document.getElementById('banner').classList.toggle('show', done === 5);
+    try{ localStorage.setItem('l1_' + id, el.classList.contains('checked') ? '1':'0'); }catch(e){}
+  }
+  // 還原打勾狀態
+  (function(){
+    ['r1','r2','r3','r4','r5'].forEach(function(id){
+      try{ if(localStorage.getItem('l1_'+id)==='1'){ var el=document.getElementById(id); if(el) el.classList.add('checked'); } }catch(e){}
+    });
+    var done = document.querySelectorAll('.rev.checked').length;
+    document.getElementById('count').textContent = done;
+    document.getElementById('bar').style.width = (done/5*100) + '%';
+    document.getElementById('banner').classList.toggle('show', done === 5);
+  })();
+
+  function copyCode(btn){
+    var text = btn.parentElement.innerText.replace(/^複製\s*/,'').trim();
+    navigator.clipboard.writeText(text).then(function(){
+      btn.textContent = '✓ 已複製';
+      setTimeout(function(){ btn.textContent='複製'; }, 1600);
+    });
+  }
+
+  // ===== TOC scrollspy + 圓點導航（單一資料來源）=====
+  (function(){
+    var toc = document.querySelector('.toc');
+    var items = [].slice.call(document.querySelectorAll('.toc li a')).map(function(a){
+      return { li:a.parentElement, target:document.getElementById(a.getAttribute('href').slice(1)), label:a.textContent.trim(), href:a.getAttribute('href') };
+    }).filter(function(i){ return !!i.target; });
+
+    var dotnav = document.querySelector('.dotnav');
+    var dots = [];
+    if(dotnav){
+      items.forEach(function(it){
+        var d = document.createElement('a');
+        d.href = it.href; d.setAttribute('aria-label','跳到 '+it.label);
+        d.innerHTML = '<span class="dot"></span>';
+        dotnav.appendChild(d); dots.push(d);
+      });
+    }
+    function sync(){
+      var wh = window.innerHeight, cur = 0;
+      items.forEach(function(it,i){
+        var b = it.target.getBoundingClientRect();
+        var on = b.bottom > wh*0.1 && b.top < wh*0.8;
+        it.li.classList.toggle('visible', on);
+        if(b.top <= 140) cur = i;
+      });
+      dots.forEach(function(d,i){ d.classList.toggle('active', i===cur); });
+    }
+    window.addEventListener('scroll', sync, false);
+    window.addEventListener('resize', sync, false);
+    sync();
+  })();
+</script>
+</body>
+</html>
