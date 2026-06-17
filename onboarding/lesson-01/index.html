@@ -105,6 +105,11 @@
   .rev-body a{color:var(--vermillion);font-weight:700;text-underline-offset:3px}
   .tip{margin-top:14px;padding:11px 15px;background:#fdf6ee;border:1px solid #e7c9a8;font-size:13.8px}
   .tip .lab{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:#a05a17;font-weight:600;display:block;margin-bottom:4px}
+  .deep{margin-top:14px;padding:15px 17px;background:#f0ece2;border:1px solid var(--line);border-left:4px solid var(--ink);font-size:13.8px;line-height:1.85}
+  .deep .lab{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--ink);font-weight:600;display:block;margin-bottom:6px}
+  .deep .src{margin-top:12px;padding-top:9px;border-top:1px dashed var(--line);font-size:12.5px}
+  .deep .src .sl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-soft);display:block;margin-bottom:3px}
+  .deep .src a{display:block;margin-top:3px;line-height:1.5}
 
   /* ===== 可複製指令／提示 ===== */
   .prompt{margin:12px 0 4px;position:relative;background:var(--ink);color:#f2ead9;padding:15px 18px;font-family:var(--mono);font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;border-left:4px solid var(--vermillion)}
@@ -327,6 +332,18 @@
       <li><code>--dangerously-skip-permissions</code> ＝ <strong>暴力模式</strong>：它覺得可以就直接做、不問你</li>
     </ul>
     <div class="tip"><span class="lab">什麼時候別用暴力模式</span>電腦裡有很多珍貴資料、又沒有異地備份，刪掉會哭——就乖乖用安全模式。備份做好了再考慮放手。</div>
+    <div class="deep">
+      <span class="lab">官方真實含義 · 進階補充</span>
+      「安全／暴力模式」是上課為了好記的比喻。它<strong>真正</strong>做的事是：Claude Code 在動你的檔案、執行終端機指令前，<strong>每次都會先跳出權限確認</strong>，這道人工關卡同時擋住「不小心的破壞」與「提示注入（prompt injection）攻擊」。<code>--dangerously-skip-permissions</code> 的作用是<strong>跳過所有這些確認</strong>（官方原文：「Skip permission prompts」，等同 <code>--permission-mode bypassPermissions</code>）。所以它不是「變強、變暴力」，而是「<strong>拿掉那道人工把關</strong>」。
+      <br><br>
+      官方之所以在名字裡放 <code>dangerously</code>，是因為讓 AI 無人看管地執行任意指令，可能造成<strong>資料遺失、系統損壞，甚至被提示注入偷走資料</strong>。因此官方建議：只在<strong>沒有對外網路的隔離容器</strong>裡使用；若只是想少一點打擾、又不想拿掉把關，可改用更安全的 <strong>Auto 模式</strong>（有分類器在每個動作執行前先審查）。
+      <div class="src">
+        <span class="sl">原始文件出處 ↗</span>
+        <a href="https://code.claude.com/docs/en/cli-reference" target="_blank" rel="noopener">Claude Code CLI 參考 — 旗標定義</a>
+        <a href="https://code.claude.com/docs/en/permission-modes" target="_blank" rel="noopener">Permission modes — bypassPermissions 跳過／不跳過什麼</a>
+        <a href="https://www.anthropic.com/engineering/claude-code-auto-mode" target="_blank" rel="noopener">Anthropic 工程部落格 — 更安全的 Auto 模式</a>
+      </div>
+    </div>
     <p style="margin-top:14px">建立 repo 三句話（依序貼給 Claude，<code>「」</code>裡換成你自己的）：</p>
     <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>我等等要在這裡工作 「貼上你的專案資料夾位置」</div>
     <div class="prompt"><button class="copy-btn" onclick="copyCode(this)">複製</button>我現在在上示範教學課程，我要用這個資料夾，也和我的 GitHub 帳號「你的帳號」連動使用，請幫我建立一個會議記錄的新 repo</div>
