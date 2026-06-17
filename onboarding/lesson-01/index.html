@@ -66,11 +66,17 @@
 
   /* ===== 資源按鈕列 ===== */
   .res{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-  .res a{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fffdf8;border:1px solid var(--line);box-shadow:3px 3px 0 rgba(31,27,22,.06);text-decoration:none;color:inherit;transition:transform .12s,box-shadow .12s}
-  .res a:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 rgba(31,27,22,.09)}
+  .res a{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#fffdf8;border:1px solid var(--line);box-shadow:3px 3px 0 rgba(31,27,22,.06);text-decoration:none;color:inherit;cursor:pointer;transition:transform .12s,box-shadow .12s}
+  .res a:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 rgba(31,27,22,.12)}
+  .res a:hover .tt{text-decoration:underline;text-underline-offset:3px}
+  .res a:hover .go{transform:translateX(3px)}
+  .res a:active{transform:translate(1px,1px);box-shadow:1px 1px 0 rgba(31,27,22,.10)}
   .res .ic{font-size:22px;flex:none}
+  .res .rt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
   .res .tt{font-weight:900;font-size:14.5px}
-  .res .ds{font-size:12px;color:var(--ink-soft)}
+  .res .ds{font-size:12px;color:var(--ink-soft);line-height:1.5}
+  .res .go{flex:none;width:26px;height:26px;color:var(--vermillion);transition:transform .12s}
+  .res .go svg{width:100%;height:100%;display:block;fill:currentColor}
 
   /* ===== 測試題卡 ===== */
   .quest{margin-top:16px;padding:16px 18px;background:var(--seal);border-left:4px solid var(--vermillion);font-size:14.5px}
@@ -234,13 +240,19 @@
 
 <div class="res">
   <a href="https://drive.google.com/drive/folders/1czSE7RzG9iDPy9aTvWdo7tuvn_loQnzB?usp=drive_link" target="_blank" rel="noopener">
-    <span class="ic">📁</span><span><span class="tt">共用雲端資料夾</span><br><span class="ds">課堂交流、檔案分享都在這</span></span>
+    <span class="ic">📁</span>
+    <span class="rt"><span class="tt">共用雲端資料夾</span><span class="ds">課堂交流、檔案分享都在這</span></span>
+    <span class="go" aria-hidden="true"><svg viewBox="0 -960 960 960"><path d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h279v60H180v600h600v-279h60v279q0 24-18 42t-42 18H180Zm202-219-42-43 398-398H519v-60h321v321h-60v-218L382-339Z"/></svg></span>
   </a>
   <a href="https://docs.google.com/spreadsheets/d/1k3e6chd_ASF3SE90HzZ7o0NY3K6Kjrto3izsyi1mrBw/edit?usp=sharing" target="_blank" rel="noopener">
-    <span class="ic">📊</span><span><span class="tt">AI 工作坊步驟表（6/16）</span><br><span class="ds">課堂同步的完整步驟與連結 · 可共編原始版</span></span>
+    <span class="ic">📊</span>
+    <span class="rt"><span class="tt">AI 工作坊步驟表（6/16）</span><span class="ds">課堂同步的完整步驟與連結 · 可共編原始版</span></span>
+    <span class="go" aria-hidden="true"><svg viewBox="0 -960 960 960"><path d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h279v60H180v600h600v-279h60v279q0 24-18 42t-42 18H180Zm202-219-42-43 398-398H519v-60h321v321h-60v-218L382-339Z"/></svg></span>
   </a>
-  <a href="../checklist/">
-    <span class="ic">✅</span><span><span class="tt">課前作業檢核表</span><br><span class="ds">還沒備齊環境？先回去逐項打勾</span></span>
+  <a href="../checklist/" target="_blank" rel="noopener">
+    <span class="ic">✅</span>
+    <span class="rt"><span class="tt">課前作業檢核表</span><span class="ds">還沒備齊環境？先回去逐項打勾</span></span>
+    <span class="go" aria-hidden="true"><svg viewBox="0 -960 960 960"><path d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h279v60H180v600h600v-279h60v279q0 24-18 42t-42 18H180Zm202-219-42-43 398-398H519v-60h321v321h-60v-218L382-339Z"/></svg></span>
   </a>
 </div>
 
